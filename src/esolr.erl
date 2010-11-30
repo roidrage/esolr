@@ -31,7 +31,7 @@
 -include("esolr.hrl").
 
 %%Application Callbacks
--export([start/2,stop/1]).
+-export([start/2,start/1,start/0,stop/1]).
 
 %%API
 -export([add/1,search/2,delete/1,commit/0,optimize/0,set_auto_optimize/1,set_auto_commit/1,escape_solr_query_fragment/1]).
@@ -47,8 +47,8 @@ start(_Type, Options) ->
 stop(_State) ->
   ok.
 
-%start() ->
-%	start([]).
+start() ->
+	start([]).
 %
 %
 %% @doc start the esolr process
@@ -59,8 +59,8 @@ stop(_State) ->
 %%       Option = {search_url,URL}|{update_url,URL}| {add_timeout,integer()} | {search_timeout,integer()} 
 %%                |{delete_timeout,integer()} | {commit_timeout,integer()} | {optimize_timeout,integer()}
 %%       URL = string()
-%start(Options) ->
-%	esolr_client_sup:start_link({local,?MODULE},?MODULE,Options).
+start(Options) ->
+	esolr_client_sup:start_link(Options).
 
 
 %init({module, Module}) ->
@@ -111,7 +111,7 @@ stop(_State) ->
 % Value = IOString
 add(Docs) ->
 	gen_server:call(esolr_client,{add,Docs},?ESOLR_MAX_ADD_TIMEOUT).
-	
+
 % @doc search the index
 %
 %      AdditionalInfo contains additional information present in the response 

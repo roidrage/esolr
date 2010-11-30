@@ -1,2 +1,3 @@
 ebin
 README.html
+src/*.beam
